@@ -10,7 +10,9 @@ def scaled_dot_product_attention(query: Tensor,
                                  key: Tensor, 
                                  value: Tensor, 
                                  mask: Optional[Tensor]=None,
-                                 dropout_p: Optional[float]=0.0
+                                 dropout_p: Optional[float]=0.0, 
+                                 is_causal: Optional[bool]=False,
+                                 scale: Optional[float]=None
                                  ) -> Tensor:
     """
     Combine three tensors; query, key, and value; to generate an output tensor of scaled dot product attention.
@@ -43,12 +45,18 @@ def scaled_dot_product_attention(query: Tensor,
     L, S = query.size(-2), key.size(-2)
 
     # Calculate scaling factor ahead of time
-    scale_factor = 1 / math.sqrt(query.size(-1))
+    scale_factor = 1 / math.sqrt(query.size(-1)) if scale is None else scale
 
     # Pre-define attn_bias as zero-weighted tensor
     # this allows it to be included in the attn_weight 
     # calculation regardless of being defined
     attn_bias = torch.zeros(L, S, dtype=query.dtype)
+
+    if is_causal:
+        assert mask is None
+        temp_mask = torch.ones(L, S, dtype=torch.bool).tril(diagonal=0)
+        attn_bias.masked_fill_(temp_mask.logical_not(), float("-inf"))
+        attn_bias.to(query.dtype)
 
     if mask is not None:
         if mask.dtype == torch.bool:
@@ -89,7 +97,8 @@ class MultiheadAttention(nn.Module):
                  input_dim: int, 
                  embed_dim: int,
                  num_heads: int,
-                 dropout_p: Optional[float]=0.0):
+                 dropout_p: Optional[float]=0.0,
+                 is_causal: Optional[bool]=False):
         super().__init__()
         assert embed_dim % num_heads == 0, "Embedding dimension must be 0 modulo number of heads."
 
@@ -97,6 +106,7 @@ class MultiheadAttention(nn.Module):
         self.num_heads = num_heads
         self.head_dim = embed_dim // num_heads
         self.dropout_p = dropout_p
+        self.is_causal = is_causal
 
         # Stack all weight matrices 1...h together for efficiency
         # Note that in many implementations you see "bias=False" which is optional
@@ -206,7 +216,7 @@ class MultiheadAttention(nn.Module):
         v = self.split_heads(self.value_proj(y if y is not None else x), batch_size)
 
         # Calculate attention tensor
-        attention, attn_weight = scaled_dot_product_attention(q, k, v, attn_mask=mask, dropout_p=self.dropout_p)
+        attention, attn_weight = scaled_dot_product_attention(q, k, v, attn_mask=mask, dropout_p=self.dropout_p, is_causal=self.is_causal)
 
         attention = attention.permute(0, 2, 1, 3).contiguous()
         attention = attention.view(batch_size, -1, self.embed_dim)
@@ -258,7 +268,7 @@ class EncoderBlock(nn.Module):
                 key_padding_mask: Optional[Tensor]=None,
                 return_attention: Optional[bool]=False
                 )->Tensor:
-        
+
         # Attention part
         x_new = self.norm1(x)
         x_new = self.self_attn(x, key_padding_mask=key_padding_mask, return_attention=return_attention)
@@ -273,9 +283,11 @@ class EncoderBlock(nn.Module):
 
         return x
 
-class DecoderBlock(nn.Module):
+
+
+class VaswaniDecoderBlock(nn.Module):
     """
-    An decoder block, consisting of self attention, cross attention, and feed-forward layers.
+    The original decoder block described in Vaswani et al (2017). Consisting of self attention, cross attention, and feed-forward layers.
     """
 
     def __init__(self,
@@ -293,7 +305,7 @@ class DecoderBlock(nn.Module):
         super().__init__()
         
         # Attention layer
-        self.self_attn = MultiheadAttention(input_dim, input_dim, num_heads, dropout_p)
+        self.self_attn = MultiheadAttention(input_dim, input_dim, num_heads, dropout_p, is_causal=True)
         self.cross_attn = MultiheadAttention(input_dim, input_dim, num_heads, dropout_p)
 
         # Two-layer MLP
@@ -366,6 +378,96 @@ class DecoderBlock(nn.Module):
         return x
     
 
+class GPTDecoderBlock(nn.Module):
+    """
+    The original decoder block described in Vaswani et al (2017). Consisting of self attention, cross attention, and feed-forward layers.
+    """
+
+    def __init__(self,
+                 input_dim: int,
+                 num_heads: int,
+                 dim_feedforward: int,
+                 dropout_p: Optional[float]=0.0):
+        """
+        Inputs:
+            input_dim (int)       - Dimensionality of the input
+            num_heads (int)       - Number of heads to use in the attention block
+            dim_feedforward (int) - Dimensionality of the hidden layer in the MLP
+            dropout_p (float)     - Dropout probability to use in the dropout layers
+        """
+        super().__init__()
+        
+        # Attention layer
+        self.self_attn = MultiheadAttention(input_dim, input_dim, num_heads, dropout_p, is_causal=True)
+
+        # Two-layer MLP
+        self.linear_net = nn.Sequential(
+            nn.Linear(input_dim, dim_feedforward),
+            nn.Dropout(dropout_p),
+            nn.ReLU(inplace=True),
+            nn.Linear(dim_feedforward, input_dim)
+        )
+
+        # Layers to apply in between the main layers
+        self.norm1 = nn.LayerNorm(input_dim)
+        self.norm2 = nn.LayerNorm(input_dim)
+        self.dropout = nn.Dropout(dropout_p)
+
+    def forward(self,
+                x: Tensor,
+                memory: Tensor,
+                src_key_padding_mask: Optional[Tensor]=None,
+                tgt_key_padding_mask: Optional[Tensor]=None,
+                return_attention: Optional[bool]=False
+                )->Tensor:
+        """
+        Forward pass of the Transformer decoder block.
+
+        Parameters
+        ----------
+        x : torch.Tensor
+            The input tensor.
+            Shape: [batch size, sequence length, embedding dim]
+        encoder_memory : torch.Tensor
+            The memory tensor from the encoder (i.e. output of the encoder).
+            Shape: [batch size, sequence length, embedding dim]
+        mask : torch.Tensor
+            The mask to be applied to the attention scores.
+            Shape: [batch size, 1, 1, sequence length]
+        src_key_padding_mask : torch.Tensor, optional
+            The mask for source key padding.
+            Shape: [batch size, sequence length]
+        tgt_key_padding_mask : torch.Tensor, optional
+            The mask for target key
+            Shape: [batch size, sequence length]
+
+        Returns
+        -------
+        torch.Tensor
+            The output tensor of the Transformer encoder block.
+            Shape: [batch size, sequence length, embedding dim]
+        """
+
+        # Self-attention part
+        x_new = self.norm1(x)
+        x_new = self.self_attn(x_new, key_padding_mask=tgt_key_padding_mask)
+        x_new = self.dropout(x_new)
+        x = x_new + x
+
+        # Cross-attention
+        x_new = self.norm2(x)
+        x_new = self.cross_attn(x_new, memory, key_padding_mask=src_key_padding_mask)
+        x_new = self.dropout(x_new)
+        x = x_new + x
+
+        # MLP part
+        x_new = self.norm3(x)
+        x_new = self.linear_net(x_new)
+        x_new = self.dropout(x_new)
+        x = x_new + x
+
+        return x
+    
 
 class TransformerBlock(nn.Module):
 
