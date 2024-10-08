@@ -6,14 +6,14 @@ from torch import Tensor
 from typing import Optional, Tuple
 
 # Efficient implementation equivalent to the following:
-def scaled_dot_product_attention(query: Tensor,
-                                 key: Tensor, 
-                                 value: Tensor, 
-                                 mask: Optional[Tensor]=None,
-                                 dropout_p: Optional[float]=0.0, 
-                                 is_causal: Optional[bool]=False,
-                                 scale: Optional[float]=None
-                                 ) -> Tensor:
+def matts_scaled_dot_product_attention(query: Tensor,
+                                       key: Tensor, 
+                                       value: Tensor, 
+                                       mask: Optional[Tensor]=None,
+                                       dropout_p: Optional[float]=0.0, 
+                                       is_causal: Optional[bool]=False,
+                                       scale: Optional[float]=None
+                                       ) -> Tensor:
     """
     Combine three tensors; query, key, and value; to generate an output tensor of scaled dot product attention.
 
