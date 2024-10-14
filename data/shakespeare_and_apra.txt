@@ -31178,6 +31178,10 @@ CORIOLANUS:
 I do owe them still
 My life and services.
 
+
+--- End of file: shakespear_01.txt ---
+
+
 MENENIUS:
 It then remains
 That you do speak to the people.
@@ -33178,6 +33182,10 @@ And so shall starve with feeding. Come, let's go:
 Leave this faint puling and lament as I do,
 In anger, Juno-like. Come, come, come.
 
+
+--- End of file: shakespear_02.txt ---
+
+
 MENENIUS:
 Fie, fie, fie!
 
@@ -35177,6 +35185,10 @@ Brother, good day; what means this armed guard
 That waits upon your grace?
 
 CLARENCE:
+
+
+--- End of file: shakespear_03.txt ---
+
 His majesty
 Tendering my person's safety, hath appointed
 This conduct to convey me to the Tower.
@@ -37177,6 +37189,10 @@ I am not barren to bring forth complaints
 All springs reduce their currents to mine eyes,
 That I, being govern'd by the watery moon,
 May send forth plenteous tears to drown the world!
+
+
+--- End of file: shakespear_04.txt ---
+
 Oh for my husband, for my dear lord Edward!
 
 Children:
@@ -39177,6 +39193,10 @@ Tyrrel, I mean those bastards in the Tower.
 
 TYRREL:
 Let me have open means to come to them,
+
+
+--- End of file: shakespear_05.txt ---
+
 And soon I'll rid you from the fear of them.
 
 KING RICHARD III:
@@ -41177,6 +41197,10 @@ Thou showest the naked pathway to thy life,
 Teaching stern murder how to butcher thee:
 That which in mean men we intitle patience
 Is pale cold cowardice in noble breasts.
+
+
+--- End of file: shakespear_06.txt ---
+
 What shall I say? to safeguard thine own life,
 The best way is to venge my Gloucester's death.
 
@@ -43178,6 +43202,10 @@ To look so poorly and to speak so fair?
 Shall we call back Northumberland, and send
 Defiance to the traitor, and so die?
 
+
+--- End of file: shakespear_07.txt ---
+
+
 DUKE OF AUMERLE:
 No, good my lord; let's fight with gentle words
 Till time lend friends and friends their helpful swords.
@@ -45177,6 +45205,10 @@ She is too fair, too wise, wisely too fair,
 To merit bliss by making me despair:
 She hath forsworn to love, and in that vow
 Do I live dead that live to tell it now.
+
+
+--- End of file: shakespear_08.txt ---
+
 
 BENVOLIO:
 Be ruled by me, forget to think of her.
@@ -47178,6 +47210,10 @@ O calm, dishonourable, vile submission!
 Alla stoccata carries it away.
 Tybalt, you rat-catcher, will you walk?
 
+
+--- End of file: shakespear_09.txt ---
+
+
 TYBALT:
 What wouldst thou have with me?
 
@@ -49177,6 +49213,10 @@ A grave? O no! a lantern, slaughter'd youth,
 For here lies Juliet, and her beauty makes
 This vault a feasting presence full of light.
 Death, lie thou there, by a dead man interr'd.
+
+
+--- End of file: shakespear_10.txt ---
+
 How oft when men are at the point of death
 Have they been merry! which their keepers call
 A lightning before death: O, how may I
@@ -51177,6 +51217,10 @@ All which secure and sweetly he enjoys,
 Is far beyond a prince's delicates,
 His viands sparkling in a golden cup,
 His body couched in a curious bed,
+
+
+--- End of file: shakespear_11.txt ---
+
 When care, mistrust, and treason waits on him.
 
 Son:
@@ -53177,6 +53221,10 @@ Which, being suffer'd, rivers cannot quench.
 
 WARWICK:
 In Warwickshire I have true-hearted friends,
+
+
+--- End of file: shakespear_12.txt ---
+
 Not mutinous in peace, yet bold in war;
 Those will I muster up: and thou, son Clarence,
 Shalt stir up in Suffolk, Norfolk, and in Kent,
@@ -55177,6 +55225,10 @@ Though I am satisfied and need no more
 Than what I know, yet shall the oracle
 Give rest to the minds of others, such as he
 Whose ignorant credulity will not
+
+
+--- End of file: shakespear_13.txt ---
+
 Come up to the truth. So have we thought it good
 From our free person she should be confined,
 Lest that the treachery of the two fled hence
@@ -57178,6 +57230,10 @@ I have: but what of him?
 POLIXENES:
 Knows he of this?
 
+
+--- End of file: shakespear_14.txt ---
+
+
 FLORIZEL:
 He neither does nor shall.
 
@@ -59176,6 +59232,10 @@ Thus can the demigod Authority
 Make us pay down for our offence by weight
 The words of heaven; on whom it will, it will;
 On whom it will not, so; yet still 'tis just.
+
+
+
+--- End of file: shakespear_15.txt ---
 
 LUCIO:
 Why, how now, Claudio! whence comes this restraint?
@@ -61177,6 +61237,10 @@ ISABELLA:
 I thank you for this comfort. Fare you well, good father.
 
 ELBOW:
+
+
+--- End of file: shakespear_16.txt ---
+
 Nay, if there be no remedy for it, but that you will
 needs buy and sell men and women like beasts, we
 shall have all the world drink brown and white bastard.
@@ -63177,6 +63241,10 @@ Most audible, even from his proper tongue,
 Haste still pays haste, and leisure answers leisure;
 Like doth quit like, and MEASURE still FOR MEASURE.
 Then, Angelo, thy fault's thus manifested;
+
+
+--- End of file: shakespear_17.txt ---
+
 Which, though thou wouldst deny, denies thee vantage.
 We do condemn thee to the very block
 Where Claudio stoop'd to death, and with like haste.
@@ -65177,6 +65245,10 @@ That she shall still be curst in company.
 I tell you, 'tis incredible to believe
 How much she loves me: O, the kindest Kate!
 She hung about my neck; and kiss on kiss
+
+
+--- End of file: shakespear_18.txt ---
+
 She vied so fast, protesting oath on oath,
 That in a twink she won me to her love.
 O, you are novices! 'tis a world to see,
@@ -67177,6 +67249,10 @@ Help, help, help! here's a madman will murder me.
 
 Pedant:
 Help, son! help, Signior Baptista!
+
+
+--- End of file: shakespear_19.txt ---
+
 
 PETRUCHIO:
 Prithee, Kate, let's stand aside and see the end of
@@ -69179,5 +69255,5 @@ Thou let'st thy fortune sleep--die, rather; wink'st
 Whiles thou art waking.
 
 
---- End of file: shakespear.txt ---
+--- End of file: shakespear_20.txt ---
 
